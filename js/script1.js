@@ -22,6 +22,12 @@ const MAX_DAMAGE = 150;
 const MAX_SPEED = 50;
 const MAX_BULLET_SPEED = 50;
 const LEVELS = 10;
+
+let W = false;
+let A = false;
+let S = false;
+let D = false;
+
 class Food{
     constructor(x, y){
         this.x = x
@@ -53,7 +59,7 @@ class player
         this.damage = damage;
         this.bulletSpeed = bulletSpeed;
         this.flag_Contact = flag_Contact;
-        this.speedVector = [0,0]
+        this.speedVector = [0,0];
         }
     draw()
     {   
@@ -342,6 +348,8 @@ function update()
     {
         ctx.translate(p.x, p.y);
         ctx.rotate(p.angle*Math.PI/180);
+        if(p.flag_Contact == true)
+        p.drawContactZone();
         p.draw();
         ctx.rotate(-p.angle*Math.PI/180);
         p.drawHealthBar(0, 0);
@@ -356,6 +364,7 @@ function update()
 })
     ctx.translate(-(playerStartPosX-Player.x), -(playerStartPosY-Player.y));
     ctx.rotate(-Player.angle*Math.PI/180);
+    if(Player.flag_Contact == true)
     Player.drawContactZone();
     Player.draw();
     ctx.rotate(+Player.angle*Math.PI/180);
@@ -363,4 +372,4 @@ function update()
     
 }
 
-setInterval(function(){Players[0].angle+=1;Players[0].y+=1;update();}, frameRatio); //Player.angle= Player.angle+1
+setInterval(function(){Players[0].angle+=1;Players[0].y+=0;update();}, frameRatio); //Player.angle= Player.angle+1

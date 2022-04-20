@@ -2,7 +2,6 @@ const canv = document.getElementById('c');
 const ctx = canv.getContext('2d');
 let w;
 let h;
-alert("Anton Gan");
 window.addEventListener('resize', resizeCanvas, false);
 function resizeCanvas() {
   canv.width = w = window.innerWidth;

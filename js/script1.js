@@ -70,6 +70,27 @@ class player
         ctx.stroke();
         ctx.fill()
         ctx.closePath();
+        
+    }
+    drawStatBars()
+    {    
+        ctx.font = "italic 30pt Arial";
+        ctx.fillStyle = "RGBA(43, 219, 78, 1)";
+        ctx.fillText("Max health:\t"+String(Player.maxHealth), -w/2+20, h/2-300);
+        ctx.strokeStyle = "RGBA(0, 0, 0, 1)";
+        ctx.strokeText("Max health:\t"+String(Player.maxHealth), -w/2+20, h/2-300);
+        
+        ctx.fillStyle = "rgba(215, 221, 55, 1)";
+        ctx.fillText("Speed:\t"+String(Player.speed), -w/2+20, h/2-250);
+        ctx.strokeText("Speed:\t"+String(Player.speed), -w/2+20, h/2-250);
+
+        ctx.fillStyle = "rgba(243, 29, 29, 1)";
+        ctx.fillText("Damage:\t"+String(Player.damage), -w/2+20, h/2-200);
+        ctx.strokeText("Damage:\t"+String(Player.damage), -w/2+20, h/2-200);
+
+        ctx.fillStyle = "rgba(29, 147, 242, 1)";
+        ctx.fillText("Bullet speed:\t"+String(Player.bulletSpeed), -w/2+20, h/2-150);
+        ctx.strokeText("Bullet speed:\t"+String(Player.bulletSpeed), -w/2+20, h/2-150);
     }
     drawContactZone()
     {
@@ -240,55 +261,39 @@ setInterval(function(){
 
 document.addEventListener('keydown', key)
 function key(d){
-    let speed = Player.speed*MAX_SPEED/LEVELS;
     switch(d.code){
         case 'KeyW':
-            Player.y -= speed;
-            Wall.forEach(function(e)
-            {
-                 if(e.collides(Player))
-                 {
-                    Player.y += speed;
-                 }
-            })
+            W=true;
             break;
         case 'KeyA':
-            Player.x -= speed
-            Wall.forEach(function(e)
-            {
-                 if(e.collides(Player))
-                 {
-                    Player.x += speed
-                 }
-            })
+            A=true;
             break;
         case 'KeyS':
-            Player.y += speed
-            Wall.forEach(function(e)
-            {
-                 if(e.collides(Player))
-                 {
-                    Player.y -= speed
-                 }
-            })
+            S=true;
             break;
         case 'KeyD':
-            Player.x += speed
-            Wall.forEach(function(e)
-            {
-                 if(e.collides(Player))
-                 {
-                    Player.x -= speed
-                 }
-            })
-
+            D=true;
             break;
     }
-    
-
 }
 
-
+document.addEventListener('keyup', gey)
+function gey(p){
+    switch(p.code){
+        case 'KeyW':
+            W=false;
+            break;
+        case 'KeyA':
+            A=false;
+            break;
+        case 'KeyS':
+            S=false;
+            break;
+        case 'KeyD':
+            D=false;
+            break;
+    }
+}
 addEventListener('click', sh);
 function sh(e){
     Player.shoot();
@@ -369,7 +374,54 @@ function update()
     Player.draw();
     ctx.rotate(+Player.angle*Math.PI/180);
     Player.drawHealthBar();
+    Player.drawStatBars();
     
 }
-
+setInterval(function()
+{
+    if (W == true) 
+    {
+        Player.y-=Player.speed;
+        Wall.forEach(function(e)
+        {
+             if(e.collides(Player))
+             {
+                Player.y+=Player.speed;
+             }
+        })
+    }
+    if (A == true) 
+    {
+        Player.x-=Player.speed;
+    Wall.forEach(function(e)
+    {
+         if(e.collides(Player))
+         {
+            Player.x+=Player.speed;
+         }
+    })
+}
+    if (S == true) 
+    {
+        Player.y+=Player.speed;
+    Wall.forEach(function(e)
+    {
+         if(e.collides(Player))
+         {
+            Player.y-=Player.speed;
+         }  
+    })
+}
+    if (D == true)
+    { 
+        Player.x+=Player.speed;
+        Wall.forEach(function(e)
+        {
+            if(e.collides(Player))
+            {
+                Player.x-=Player.speed;
+            }
+        })
+    } 
+}, 8);
 setInterval(function(){Players[0].angle+=1;Players[0].y+=0;update();}, frameRatio); //Player.angle= Player.angle+1

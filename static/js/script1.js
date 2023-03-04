@@ -1,3 +1,4 @@
+console.log("asdasd")
 const canv = document.getElementById('c');
 const ctx = canv.getContext('2d');
 let w;
@@ -238,7 +239,7 @@ function drawFood(x, y, size, color){
     ctx.beginPath()
     ctx.rect(x,y,size,size)
     ctx.fill()
-    ctx.closePath();
+    ctx.closePath()
 }
 
 let food = []
@@ -372,7 +373,6 @@ function update()
     if(Player.flag_Contact == true)
     Player.drawContactZone();
     Player.draw();
-    ctx.rotate(+Player.angle*Math.PI/180);
     Player.drawHealthBar();
     Player.drawStatBars();
     

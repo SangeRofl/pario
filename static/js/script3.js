@@ -56,45 +56,50 @@ function gey(p){
             break;
     }
 }
-
+addEventListener('click', sh);
+function sh(e){
+    Player.shoot();
+   //console.log("x:",x, "\ty:",y, "\tangle:", Player.angle);
+  }
 
 setInterval(function()
 {
+    message = ""
     if (W == true) 
     {
-        ws.send("W");
-        console.log("W is pressed")
+        message+="W1"
     }
-    // else if(W == false)
-    // {
-    //     ws.send("not W");
-    // } 
+    else if(W == false)
+    {
+        message+="W0";
+    } 
 
     if (A == true) 
     {
-        ws.send("A");
+        message+="A1";
     }
-    // else if(A == false)
-    // {
-    //     ws.send("not A");
-    // } 
+    else if(A == false)
+    {
+        message+="A0";
+    } 
 
     if (S == true) 
     {
-        ws.send("S");
+        message+="S1";
     }
-    // else if(S == false)
-    // {
-    //     ws.send("not S");
-    // } 
+    else if(S == false)
+    {
+        message+="S0";
+    } 
 
     if (D == true)
     { 
-        ws.send("D");
+        message+="D1";
     }
-    // else if(D == false){
-    //     ws.send("not D");
-    // } 
+    else if(D == false){
+        message+="D0";
+    }
+    ws.send(message);
 }, 50);
 
 
@@ -254,21 +259,23 @@ trash = []
 
 ws.onmessage = function(e){
     
-    ctx.fillStyle = 'white';
-    ctx.fillRect(-w/2, -h/2, w, h);
-    ctx.translate(-Player.x, -Player.y);
     data = JSON.parse(e.data);
+    console.log(data)
     data.generated.trash.forEach(function(e){
         trash.push(new Food(e.x, e.y));
     })
-    trash.forEach(function(e){
-        drawFood(e.x, e.y, 10, "red");
-    })
     Player.x = data.pos.x;
     Player.y = data.pos.y;
+    ctx.fillStyle = 'white';
+    ctx.fillRect(-w/2, -h/2, w, h);
+    ctx.translate(-Player.x, -Player.y);
+    
+    trash.forEach(function(e){
+        
+        drawFood(e.x, e.y, 10, "red");
+    })
+
     console.log(Player.x, Player.y);
     ctx.translate(Player.x, Player.y);
-    ctx.rotate(-Player.angle*Math.PI/180);
     Player.draw()
-    ctx.rotate(+Player.angle*Math.PI/180);
   }

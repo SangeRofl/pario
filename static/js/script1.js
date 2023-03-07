@@ -314,7 +314,7 @@ function pos(e){
     }
     else
     {
-        Player.angle = -grad;
+        Player.angle = -grad;   
     }
    //console.log("x:",x, "\ty:",y, "\tangle:", Player.angle);
   }
@@ -323,7 +323,7 @@ function update()
     ctx.fillStyle = 'white';
     ctx.fillRect(-w/2, -h/2, w, h);
     ctx.translate(playerStartPosX-Player.x, playerStartPosY-Player.y);
-    food.forEach(function(e){
+    food.forEach(function(e){ 
         drawFood(e.x, e.y, e.size, 'red')
     })
     Wall.forEach(function(e){
